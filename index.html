@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmoCare</title>
+    <link rel="stylesheet" href="style1.css">
+    <script src="https://kit.fontawesome.com/dc1ffc8683.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+    <section 
+        <div
+            <form id="predictionForm">
+                <label for="inputData">
+                    <i></i> Upload Your Audio
+                </label>
+                <br>
+                <input type="file" id="inputData" accept="audio/wav">
+                <br>
+            <button  type="submit">
+                <div id="loading" style="display: none;">
+                </div>
+                <i class="fa-solid"></i> Detect Emotion
+            </button>
+        </form>
+            <div class="emotion-text" id="result">
+                <!-- Emotion text will be updated dynamically -->____________________
+        </div>
+    </section>
+
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const inputData = document.getElementById('inputData').files[0];
+            console.log(inputData)
+            const formData = new FormData();
+            formData.append('file', inputData);
+            console.log(formData)
+            document.getElementById('result').style.color = "#FFDFDF";
+            document.getElementById('result').innerText =  "Your emotion will be displayed here.";
+            document.getElementById('loading').style.display = 'block';
+
+            const response = await fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                body:formData
+            });
+            const result = await response.json();
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('result').style.color = 'black'; 
+            document.getElementById('result').innerText =  result;
+        });
+    </script>
+
+</body>
+
+
+</html>
